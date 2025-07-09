@@ -24,7 +24,19 @@ namespace task_management_app_backend.Controllers
             if (status.IsError == false)
                 return StatusCode(201, new { message = "Account created successfully" });
             else
-                return StatusCode(Convert.ToInt32(status.ErrorCode), new { message = status.ErrorMessage});
+                return StatusCode(Convert.ToInt32(status.ErrorCode), new { message = status.Message});
+        }
+
+        [HttpGet]
+        [Route("LoginUser")]
+        public async Task<IActionResult> Login(string email, string password)
+        {
+            var status = await _dBServices.LoginUser(email, password);
+
+            if (status.IsError == false)
+                return StatusCode(200, new { message = status.Message });
+            else
+                return StatusCode(Convert.ToInt32(status.ErrorCode), new { message = status.Message });
         }
     }
 }
